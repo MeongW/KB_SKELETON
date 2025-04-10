@@ -18,7 +18,7 @@ export default defineConfig({
       "/api": {
         target: "https://kb-json-server.glitch.me",
         changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/kb-skeleton/api/, ""),
+        rewrite: (path) => path.replace(/^\/kb-skeleton\/api/, ""),
       },
     },
   },
