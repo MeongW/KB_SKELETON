@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import api from "@/services";
+import api from "@/services/api";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
