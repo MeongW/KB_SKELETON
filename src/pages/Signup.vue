@@ -10,7 +10,11 @@
       >
         <!-- Header -->
         <div class="text-center mb-4">
-          <h2 class="fw-bold">KB가계부</h2>
+          <img
+            src="@/assets/images/logo.png"
+            alt="KB가계부 로고"
+            style="width: 160px; height: auto"
+          />
           <p class="text-muted">나의 소비를 똑똑하게 관리하세요</p>
         </div>
 
