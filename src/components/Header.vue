@@ -1,5 +1,7 @@
 <template>
-  <nav class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-2">
+  <nav
+    class="navbar navbar-expand-lg bg-white shadow-sm px-4 py-2 navbar-container"
+  >
     <div class="container-fluid">
       <router-link to="/home" class="navbar-brand">
         <img
@@ -24,6 +26,7 @@
               :to="item.path"
               class="nav-link-custom"
               :class="{ active: isActive(item.path) }"
+              @click="isNavShow = false"
             >
               {{ item.label }}
             </router-link>
@@ -41,6 +44,7 @@
               :to="'/mypage'"
               class="nav-link-custom"
               :class="{ active: isActive('/mypage') }"
+              @click="isNavShow = false"
             >
               마이페이지
             </router-link>
@@ -52,7 +56,7 @@
 </template>
 
 <script setup>
-import { ref, computed } from "vue";
+import { ref, computed, onMounted, onBeforeUnmount } from "vue";
 import { useRoute, useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
 import { storeToRefs } from "pinia";
@@ -81,6 +85,21 @@ const userImage = computed(() => {
 const goToMypage = () => {
   router.push("/mypage");
 };
+
+const handleClickOutside = (event) => {
+  const clickedInside = event.target.closest(".navbar-container");
+  if (isNavShow.value && !clickedInside) {
+    isNavShow.value = false;
+  }
+};
+
+onMounted(() => {
+  document.addEventListener("click", handleClickOutside);
+});
+
+onBeforeUnmount(() => {
+  document.removeEventListener("click", handleClickOutside);
+});
 </script>
 
 <style scoped>

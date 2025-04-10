@@ -1,5 +1,5 @@
 <template>
-  <div>
+  <div class="mb-5">
     <div class="card border shadow-sm rounded-4 p-3 bg-white">
       <div
         v-if="Object.keys(groupedByDate).length === 0"
