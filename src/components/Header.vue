@@ -52,12 +52,15 @@
 </template>
 
 <script setup>
-import { ref, onMounted } from "vue";
+import { ref, computed } from "vue";
 import { useRoute, useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
+import { storeToRefs } from "pinia";
 
 const isNavShow = ref(false);
 const route = useRoute();
 const router = useRouter();
+const userStore = useUserStore();
 
 const navItems = [
   { label: "홈", path: "/home" },
@@ -68,11 +71,11 @@ const navItems = [
 
 const isActive = (path) => route.path === path;
 
-const userImage = ref("");
-onMounted(() => {
-  userImage.value =
-    localStorage.getItem("userImage") ||
-    "https://velog.velcdn.com/images/chanmi125/post/18a3256c-dbaf-4f5e-952e-c694496e25ad/image.svg";
+const user = storeToRefs(userStore).user;
+const userImage = computed(() => {
+  return user.value
+    ? localStorage.getItem("userImage")
+    : "https://velog.velcdn.com/images/chanmi125/post/18a3256c-dbaf-4f5e-952e-c694496e25ad/image.svg";
 });
 
 const goToMypage = () => {

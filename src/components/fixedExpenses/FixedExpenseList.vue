@@ -27,32 +27,27 @@
     </div>
 
     <!-- 필터링된 리스트 -->
-    <FixedExpenseItem
-      v-for="s in filtered"
-      :key="s.id"
-      :item="s"
-    />
+    <FixedExpenseItem v-for="s in filtered" :key="s.id" :item="s" />
   </div>
 </template>
 
 <script setup>
-import { ref, computed } from 'vue';
-import FixedExpenseItem from './FixedExpenseItem.vue';
-import { useFixedExpenseStore } from '@/stores/FixedExpenseStore';
+import { ref, computed } from "vue";
+import FixedExpenseItem from "./FixedExpenseItem.vue";
+import { useFixedExpenseStore } from "@/stores/FixedExpenseStore";
 
 const store = useFixedExpenseStore();
-const activeCategory = ref('구독');
+const activeCategory = ref("구독");
 
 const filtered = computed(() =>
   store.fixedExpenses.filter((item) => {
-    let randomPair = store.colorPairs[Math.floor(Math.random() * store.colorPairs.length)];
+    let randomPair =
+      store.colorPairs[Math.floor(Math.random() * store.colorPairs.length)];
     item.boxColor = randomPair.boxColor;
     item.dotColor = randomPair.dotColor;
     return item.category === activeCategory.value; // 필터 조건
   })
 );
-
-
 </script>
 
 <style scoped>
@@ -89,5 +84,4 @@ const filtered = computed(() =>
   transition: left 0.3s ease;
   border-radius: 2px;
 }
-
 </style>

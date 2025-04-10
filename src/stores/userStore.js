@@ -1,7 +1,7 @@
 import { defineStore } from "pinia";
-import axios from "axios";
+import api from "@/services/api";
 
-const BASE_URL = "/api";
+const BASE_URL = "";
 export const useUserStore = defineStore("user", {
   state: () => ({
     user: null,
@@ -9,7 +9,7 @@ export const useUserStore = defineStore("user", {
   actions: {
     async fetchUser(id) {
       try {
-        const res = await axios.get(`${BASE_URL}/users/${id}`);
+        const res = await api.get(`${BASE_URL}/users/${id}`);
         this.user = res.data;
         console.log(localStorage.getItem("userId"));
       } catch (error) {
@@ -31,7 +31,7 @@ export const useUserStore = defineStore("user", {
     async deleteUser() {
       //현재 로그인된 유저 정보가 없으면 함수 종료
       if (!this.user) return;
-      await axios.delete(`${BASE_URL}/users/${this.user.id}`);
+      await api.delete(`${BASE_URL}/users/${this.user.id}`);
       this.logout();
     },
     async changePassword(current, newPassword) {
@@ -45,7 +45,7 @@ export const useUserStore = defineStore("user", {
         ...this.user,
         password: newPassword,
       };
-      const res = await axios.put(
+      const res = await api.put(
         `${BASE_URL}/users/${this.user.id}`,
         updatedUser
       );
@@ -67,7 +67,7 @@ export const useUserStore = defineStore("user", {
           nickname: newNickname,
         };
 
-        const res = await axios.put(
+        const res = await api.put(
           `${BASE_URL}/users/${this.user.id}`,
           updatedUser
         );

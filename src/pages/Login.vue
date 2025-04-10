@@ -112,19 +112,19 @@
 </template>
 
 <script setup>
-import axios from 'axios';
-import { ref, onMounted } from 'vue';
-import { useRouter } from 'vue-router';
-import { useUserStore } from '@/stores/userStore';
+import api from "@/services/api";
+import { ref, onMounted } from "vue";
+import { useRouter } from "vue-router";
+import { useUserStore } from "@/stores/userStore";
 
 const userStore = useUserStore();
 const router = useRouter();
 
-const email = ref('');
-const password = ref('');
+const email = ref("");
+const password = ref("");
 const showPassword = ref(false);
 const autoLogin = ref(false);
-const errorMessage = ref('');
+const errorMessage = ref("");
 
 const emailError = ref(false);
 const passwordError = ref(false);
@@ -147,7 +147,7 @@ const login = async () => {
   }
 
   try {
-    const res = await axios.get('/api/users', {
+    const res = await api.get("/users", {
       params: {
         email: email.value,
         password: password.value,
@@ -157,32 +157,32 @@ const login = async () => {
     if (res.data.length > 0) {
       const loggedInUser = res.data[0];
       userStore.setUser(loggedInUser);
-      localStorage.setItem('userId', loggedInUser.id);
+      localStorage.setItem("userId", loggedInUser.id);
 
       // ✅ 자동 로그인 정보 저장
       if (autoLogin.value) {
-        localStorage.setItem('autoLoginEmail', email.value);
-        localStorage.setItem('autoLoginPassword', password.value);
+        localStorage.setItem("autoLoginEmail", email.value);
+        localStorage.setItem("autoLoginPassword", password.value);
       } else {
-        localStorage.removeItem('autoLoginEmail');
-        localStorage.removeItem('autoLoginPassword');
+        localStorage.removeItem("autoLoginEmail");
+        localStorage.removeItem("autoLoginPassword");
       }
 
-      errorMessage.value = '';
-      router.push('/home');
+      errorMessage.value = "";
+      router.push("/home");
     } else {
-      errorMessage.value = '이메일 또는 비밀번호가 일치하지 않습니다.';
+      errorMessage.value = "이메일 또는 비밀번호가 일치하지 않습니다.";
     }
   } catch (err) {
-    console.error('로그인 오류:', err);
-    errorMessage.value = '로그인 중 오류가 발생했습니다.';
+    console.error("로그인 오류:", err);
+    errorMessage.value = "로그인 중 오류가 발생했습니다.";
   }
 };
 
 // ✅ 자동 로그인 실행
 onMounted(async () => {
-  const savedEmail = localStorage.getItem('autoLoginEmail');
-  const savedPassword = localStorage.getItem('autoLoginPassword');
+  const savedEmail = localStorage.getItem("autoLoginEmail");
+  const savedPassword = localStorage.getItem("autoLoginPassword");
 
   if (savedEmail && savedPassword) {
     email.value = savedEmail;

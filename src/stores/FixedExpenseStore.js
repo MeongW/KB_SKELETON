@@ -1,10 +1,10 @@
 // src/stores/fixedExpenseStore.js
 import { defineStore } from "pinia";
-import axios from "axios";
+import api from "@/services/api";
 import { reactive, computed, ref } from "vue";
 
 export const useFixedExpenseStore = defineStore("fixedExpense", () => {
-  const BASEURI = "api/subscriptions";
+  const BASEURI = "/subscriptions";
 
   const state = reactive({
     fixedExpenses: [],
@@ -23,7 +23,7 @@ export const useFixedExpenseStore = defineStore("fixedExpense", () => {
   const fetchExpenses = async () => {
     state.isLoading = true;
     try {
-      const res = await axios.get(BASEURI, {
+      const res = await api.get(BASEURI, {
         params: { userId },
       });
 
@@ -37,7 +37,7 @@ export const useFixedExpenseStore = defineStore("fixedExpense", () => {
 
   const addExpense = async (expense, callback) => {
     try {
-      const res = await axios.post(BASEURI, expense);
+      const res = await api.post(BASEURI, expense);
       if (res.status === 201) {
         state.fixedExpenses.push(res.data);
         callback?.();
@@ -48,7 +48,7 @@ export const useFixedExpenseStore = defineStore("fixedExpense", () => {
   };
   const updateExpense = async (id, updatedData, callback) => {
     try {
-      const res = await axios.put(`${BASEURI}/${id}`, updatedData);
+      const res = await api.put(`${BASEURI}/${id}`, updatedData);
       if (res.status === 200) {
         // 기존 리스트도 업데이트
         const index = state.fixedExpenses.findIndex((e) => e.id === id);
@@ -64,7 +64,7 @@ export const useFixedExpenseStore = defineStore("fixedExpense", () => {
 
   const deleteExpense = async (id) => {
     try {
-      await axios.delete(`${BASEURI}/${id}`);
+      await api.delete(`${BASEURI}/${id}`);
       const index = state.fixedExpenses.findIndex((e) => e.id === id);
       if (index !== -1) state.fixedExpenses.splice(index, 1);
     } catch (err) {

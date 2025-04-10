@@ -43,7 +43,7 @@
 
 <script setup>
 import { ref, onMounted, onBeforeUnmount } from "vue";
-import axios from "axios";
+import api from "@/services";
 import dayjs from "dayjs";
 import isSameOrAfter from "dayjs/plugin/isSameOrAfter";
 import isSameOrBefore from "dayjs/plugin/isSameOrBefore";
@@ -72,7 +72,7 @@ onMounted(async () => {
   if (!userId) return;
 
   try {
-    const { data } = await axios.get("/api/subscriptions", {
+    const { data } = await api.get("/subscriptions", {
       params: { userId },
     });
 

@@ -120,26 +120,26 @@
 </template>
 
 <script setup>
-import { ref } from 'vue';
-import { useRouter } from 'vue-router';
-import axios from 'axios';
-import { useUserStore } from '@/stores/userStore';
+import { ref } from "vue";
+import { useRouter } from "vue-router";
+import api from "@/services/api";
+import { useUserStore } from "@/stores/userStore";
 const userStore = useUserStore();
 
 const router = useRouter();
 
 // 사용자 입력 값들
-const nickname = ref('');
-const email = ref('');
-const password = ref('');
-const confirmPassword = ref('');
+const nickname = ref("");
+const email = ref("");
+const password = ref("");
+const confirmPassword = ref("");
 
 // 상태값: 비밀번호 보기 토글
 const showPassword = ref(false);
 const showConfirmPassword = ref(false);
 
 // 에러 메시지
-const errorMessage = ref('');
+const errorMessage = ref("");
 
 // 비밀번호 입력 토글
 const togglePassword = () => {
@@ -154,50 +154,50 @@ const toggleConfirmPassword = () => {
 // 회원가입 처리
 const signup = async () => {
   if (password.value !== confirmPassword.value) {
-    errorMessage.value = '비밀번호가 일치하지 않습니다';
+    errorMessage.value = "비밀번호가 일치하지 않습니다";
     return;
   }
 
-  errorMessage.value = '';
+  errorMessage.value = "";
 
   try {
     // 이메일 중복 체크
-    const check = await axios.get('/api/users', {
+    const check = await api.get("/users", {
       params: { email: email.value },
     });
 
     if (check.data.length > 0) {
-      errorMessage.value = '이미 사용 중인 이메일입니다.';
+      errorMessage.value = "이미 사용 중인 이메일입니다.";
       return;
     }
 
     // 회원 정보 db.json에 저장
-    const response = await axios.post('/api/users', {
+    const response = await api.post("/users", {
       nickname: nickname.value,
       email: email.value,
       password: password.value,
     });
 
-    console.log('✅ 회원가입 성공:', response.data);
+    console.log("✅ 회원가입 성공:", response.data);
 
     // 회원가입 성공 후에 이 코드 추가!
     userStore.setUser(response.data); // Pinia에 유저 저장
-    localStorage.setItem('userId', response.data.id); // ✅ 로컬에도 저장
+    localStorage.setItem("userId", response.data.id); // ✅ 로컬에도 저장
 
     // 입력값 초기화
-    nickname.value = '';
-    email.value = '';
-    password.value = '';
-    confirmPassword.value = '';
+    nickname.value = "";
+    email.value = "";
+    password.value = "";
+    confirmPassword.value = "";
 
     // 완료 후 로그인 페이지로 이동 (옵션)
-    alert('회원가입이 완료되었습니다!');
+    alert("회원가입이 완료되었습니다!");
 
     // 로그인 페이지로 이동
-    router.push('/');
+    router.push("/");
   } catch (err) {
-    console.error('❌ 회원가입 오류:', err);
-    errorMessage.value = '회원가입 중 오류가 발생했습니다.';
+    console.error("❌ 회원가입 오류:", err);
+    errorMessage.value = "회원가입 중 오류가 발생했습니다.";
   }
 };
 </script>
