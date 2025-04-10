@@ -8,7 +8,7 @@ import dayGridPlugin from '@fullcalendar/daygrid';
 import interactionPlugin from '@fullcalendar/interaction';
 import koLocale from '@fullcalendar/core/locales/ko';
 import dayjs from 'dayjs';
-import { ref, computed, onMounted } from 'vue';
+import { ref, computed, onMounted, watch } from 'vue';
 import { useTransactionStore } from '@/stores/transactionStore';
 import { useUserStore } from '@/stores/userStore';
 
@@ -99,6 +99,17 @@ onMounted(async () => {
     },
   };
 });
+
+watch(
+  () => transactionStore.transactions, // 거래 목록의 변화를 감지
+  () => {
+    if (calendarOptions.value) {
+      // shallow copy를 통해 반응성 유도 (FullCalendar가 내부 옵션 변경 감지하게 함)
+      calendarOptions.value = { ...calendarOptions.value };
+    }
+  },
+  { deep: true }
+);
 </script>
 
 <style>

@@ -70,44 +70,30 @@
             </div>
           </div>
 
-          <!-- 자동 로그인 -->
-          <div class="form-check mb-4">
+          <!-- 자동 로그인 + 눈 아이콘 -->
+          <div class="form-check d-flex align-items-center mb-4">
             <input
-              class="form-check-input"
+              class="form-check-input me-2"
               type="checkbox"
               v-model="autoLogin"
               id="autoLogin"
             />
-
-            <span
-              class="input-group-text"
-              style="cursor: pointer"
-              @click="togglePassword"
-            >
-              <i
+            <label class="form-check-label me-auto" for="autoLogin">
+              자동 로그인
+            </label>
+            <span style="cursor: pointer" @click="togglePassword">
+              <!-- <i
                 :class="
                   showPassword ? 'fa-solid fa-eye' : 'fa-solid fa-eye-slash'
                 "
-              ></i>
+              ></i> -->
             </span>
           </div>
-        </div>
 
-        <!-- 자동 로그인 -->
-        <div class="form-check mb-4">
-          <input
-            class="form-check-input"
-            type="checkbox"
-            v-model="autoLogin"
-            id="autoLogin"
-          />
-          <label class="form-check-label" for="autoLogin">자동 로그인</label>
-        </div>
-
-        <!-- 오류 메시지 출력 -->
-        <div v-if="errorMessage" class="text-danger small text-center mb-3">
-          {{ errorMessage }}
-        </div>
+          <!-- 오류 메시지 출력 -->
+          <div v-if="errorMessage" class="text-danger small text-center mb-3">
+            {{ errorMessage }}
+          </div>
 
           <!-- 로그인 버튼 -->
           <button class="btn btn-primary w-100 mb-3" type="submit">
@@ -134,11 +120,11 @@ import { useUserStore } from '@/stores/userStore';
 const userStore = useUserStore();
 const router = useRouter();
 
-const email = ref("");
-const password = ref("");
+const email = ref('');
+const password = ref('');
 const showPassword = ref(false);
 const autoLogin = ref(false);
-const errorMessage = ref("");
+const errorMessage = ref('');
 
 const emailError = ref(false);
 const passwordError = ref(false);
@@ -161,7 +147,7 @@ const login = async () => {
   }
 
   try {
-    const res = await axios.get("/api/users", {
+    const res = await axios.get('/api/users', {
       params: {
         email: email.value,
         password: password.value,
@@ -171,7 +157,7 @@ const login = async () => {
     if (res.data.length > 0) {
       const loggedInUser = res.data[0];
       userStore.setUser(loggedInUser);
-      localStorage.setItem("userId", loggedInUser.id);
+      localStorage.setItem('userId', loggedInUser.id);
 
       // ✅ 자동 로그인 정보 저장
       if (autoLogin.value) {
@@ -188,8 +174,8 @@ const login = async () => {
       errorMessage.value = '이메일 또는 비밀번호가 일치하지 않습니다.';
     }
   } catch (err) {
-    console.error("로그인 오류:", err);
-    errorMessage.value = "로그인 중 오류가 발생했습니다.";
+    console.error('로그인 오류:', err);
+    errorMessage.value = '로그인 중 오류가 발생했습니다.';
   }
 };
 
