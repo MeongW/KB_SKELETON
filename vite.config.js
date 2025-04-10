@@ -13,15 +13,6 @@ export default defineConfig({
       "@": fileURLToPath(new URL("./src", import.meta.url)),
     },
   },
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://kb-json-server.glitch.me",
-        changeOrigin: true,
-        rewrite: (path) => path.replace(/^\/kb-skeleton\/api/, ""),
-      },
-    },
-  },
   css: {
     preprocessorOptions: {
       scss: {
