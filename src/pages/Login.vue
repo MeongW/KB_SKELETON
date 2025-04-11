@@ -113,6 +113,7 @@
 
 <script setup>
 import api from "@/services/api";
+import bcrypt from "bcryptjs";
 import { ref, onMounted } from "vue";
 import { useRouter } from "vue-router";
 import { useUserStore } from "@/stores/userStore";
@@ -150,28 +151,32 @@ const login = async () => {
     const res = await api.get("/users", {
       params: {
         email: email.value,
-        password: password.value,
       },
     });
 
     if (res.data.length > 0) {
-      const loggedInUser = res.data[0];
-      userStore.setUser(loggedInUser);
-      localStorage.setItem("userId", loggedInUser.id);
+      const user = res.data[0];
+      const isMatch = await bcrypt.compare(password.value, user.password);
 
-      // ✅ 자동 로그인 정보 저장
-      if (autoLogin.value) {
-        localStorage.setItem("autoLoginEmail", email.value);
-        localStorage.setItem("autoLoginPassword", password.value);
+      if (isMatch) {
+        userStore.setUser(user);
+        localStorage.setItem("userId", user.id);
+
+        if (autoLogin.value) {
+          localStorage.setItem("autoLoginEmail", email.value);
+          localStorage.setItem("autoLoginPassword", password.value); // ⚠️ 실제 서비스에서는 안 함!
+        } else {
+          localStorage.removeItem("autoLoginEmail");
+          localStorage.removeItem("autoLoginPassword");
+        }
+
+        errorMessage.value = "";
+        router.push("/home");
       } else {
-        localStorage.removeItem("autoLoginEmail");
-        localStorage.removeItem("autoLoginPassword");
+        errorMessage.value = "비밀번호가 일치하지 않습니다.";
       }
-
-      errorMessage.value = "";
-      router.push("/home");
     } else {
-      errorMessage.value = "이메일 또는 비밀번호가 일치하지 않습니다.";
+      errorMessage.value = "존재하지 않는 이메일입니다.";
     }
   } catch (err) {
     console.error("로그인 오류:", err);

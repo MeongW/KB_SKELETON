@@ -1,5 +1,6 @@
 import { defineStore } from "pinia";
 import api from "@/services/api";
+import bcrypt from "bcryptjs";
 
 const BASE_URL = "";
 export const useUserStore = defineStore("user", {
@@ -34,26 +35,64 @@ export const useUserStore = defineStore("user", {
       await api.delete(`${BASE_URL}/users/${this.user.id}`);
       this.logout();
     },
+
     async changePassword(current, newPassword) {
       if (!this.user) {
-        console.log("유저 정보가 없습니다.");
+        return "no-user"; // 사용자 정보 없음
       }
-      if (this.user.password !== current) {
-        console.log("비밀번호가 일치하지 않습니다.");
+
+      // 비밀번호 유효성 검사 함수
+      const validateStrongPassword = (password) => {
+        const hasLetter = /[A-Za-z]/.test(password);
+        const hasNumber = /[0-9]/.test(password);
+        const hasSymbol = /[!@#$%^&*(),.?":{}|<>_\-\\[\]=+`~;'\/]/.test(
+          password
+        );
+        const isOnlyAllowedChars =
+          /^[A-Za-z0-9!@#$%^&*(),.?":{}|<>_\-\\[\]=+`~;'\/]+$/.test(password);
+        return (
+          password.length >= 8 &&
+          hasLetter &&
+          hasNumber &&
+          hasSymbol &&
+          isOnlyAllowedChars
+        );
+      };
+
+      // 비밀번호 조건 불충족
+      if (!validateStrongPassword(newPassword)) {
+        return "invalid-password-format";
       }
+
+      // 현재 비밀번호 불일치
+      const isMatch = await bcrypt.compare(current, this.user.password);
+      if (!isMatch) {
+        return "not-matched";
+      }
+
+      // 비밀번호 해싱 후 업데이트
+      const hashedPassword = await bcrypt.hash(newPassword, 10);
+
       const updatedUser = {
         ...this.user,
-        password: newPassword,
+        password: hashedPassword,
       };
-      const res = await api.put(
-        `${BASE_URL}/users/${this.user.id}`,
-        updatedUser
-      );
-      if (res.status === 200) {
-        this.user.password = newPassword;
-        return true;
-      } else {
-        console.log("비밀번호 변경 실패");
+
+      try {
+        const res = await api.put(
+          `${BASE_URL}/users/${this.user.id}`,
+          updatedUser
+        );
+
+        if (res.status === 200) {
+          this.user.password = hashedPassword;
+          return "success";
+        } else {
+          return "server-error";
+        }
+      } catch (error) {
+        console.error("비밀번호 변경 요청 중 에러:", error);
+        return "server-error";
       }
     },
 
