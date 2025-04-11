@@ -120,5 +120,28 @@ export const useUserStore = defineStore("user", {
         console.log("닉네임 변경 실패", error);
       }
     },
+
+    async toggleSendNotification(value) {
+      if (!this.user) return;
+
+      const updatedUser = {
+        ...this.user,
+        sendNotification: value,
+      };
+
+      try {
+        const res = await api.put(
+          `${BASE_URL}/users/${this.user.id}`,
+          updatedUser
+        );
+        if (res.status === 200) {
+          this.user = updatedUser;
+        } else {
+          alert("알림 설정 변경에 실패했습니다.");
+        }
+      } catch (error) {
+        console.error("알림 설정 변경 실패:", error);
+      }
+    },
   },
 });

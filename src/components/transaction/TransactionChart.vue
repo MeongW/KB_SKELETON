@@ -190,7 +190,7 @@ watch([viewDate, viewMode, chartRefreshKey], loadChartData, {
   height: 300px;
 }
 
-@media screen and (max-width: 768px) {
+@media screen and (max-width: 1200px) {
   .card {
     height: 300px !important;
   }

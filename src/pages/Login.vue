@@ -161,6 +161,7 @@ const login = async () => {
       if (isMatch) {
         userStore.setUser(user);
         localStorage.setItem("userId", user.id);
+        localStorage.setItem("sendNotification", user.sendNotification);
 
         if (autoLogin.value) {
           localStorage.setItem("autoLoginEmail", email.value);

@@ -62,9 +62,9 @@
               class="form-check-input pointer"
               type="checkbox"
               role="switch"
-              :id="key"
-              :checked="true"
-              disabled
+              id="sendNotification"
+              :checked="user?.sendNotification"
+              @change="(e) => handleToggleNotification(e.target.checked)"
             />
           </span>
         </div>
@@ -114,6 +114,10 @@ const alarmLabels = {
   payAlarm: "결제 예정 알림",
 };
 
+const handleToggleNotification = (value) => {
+  userStore.toggleSendNotification(value);
+};
+
 const modiNickname = () => {
   isEditing.value = true;
 };
@@ -148,6 +152,7 @@ const deleteUser = async () => {
 
 onMounted(async () => {
   const storedId = localStorage.getItem("userId");
+
   userImage.value =
     localStorage.getItem("userImage") ||
     "https://velog.velcdn.com/images/chanmi125/post/18a3256c-dbaf-4f5e-952e-c694496e25ad/image.svg";

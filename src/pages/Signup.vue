@@ -145,6 +145,7 @@ import { useRouter } from "vue-router";
 import bcrypt from "bcryptjs";
 import api from "@/services/api";
 import { useUserStore } from "@/stores/userStore";
+import dayjs from "dayjs";
 
 const router = useRouter();
 const userStore = useUserStore();
@@ -254,6 +255,8 @@ const signup = async () => {
       nickname: nickname.value,
       email: email.value,
       password: hashedPassword,
+      joinDate: dayjs().format("YYYY-MM-DD"),
+      sendNotification: true,
     });
 
     userStore.setUser(response.data);

@@ -1,34 +1,37 @@
 <script setup>
-import { ref, onMounted, computed } from 'vue';
-import { useTransactionStore } from '@/stores/transactionStore';
+import { ref, onMounted, computed } from "vue";
+import { useTransactionStore } from "@/stores/transactionStore";
+import { useUserStore } from "@/stores/userStore";
 
-import Calendar from '@/components/Calendar.vue';
-import HomeLayout from '@/components/layouts/HomeLayout.vue';
-import RecentHistory from '@/components/RecentHistory.vue';
-import ThisMonthHistory from '@/components/ThisMonthHistory.vue';
-import Footer from '@/components/Footer.vue';
-import TransactionModal from '@/components/modal/TransactionModal.vue';
-import UpcomingToast from '@/components/UpcomingToast.vue';
-import TransactionDetailModal from '@/components/modal/TransactionDetailModal.vue'; // ✅ 모달 컴포넌트
+import Calendar from "@/components/Calendar.vue";
+import HomeLayout from "@/components/layouts/HomeLayout.vue";
+import RecentHistory from "@/components/RecentHistory.vue";
+import ThisMonthHistory from "@/components/ThisMonthHistory.vue";
+import Footer from "@/components/Footer.vue";
+import TransactionModal from "@/components/modal/TransactionModal.vue";
+import UpcomingToast from "@/components/UpcomingToast.vue";
+import TransactionDetailModal from "@/components/modal/TransactionDetailModal.vue"; // ✅ 모달 컴포넌트
 
 // ✅ 상태
 const showModal = ref(false);
 const seenFixedToast = ref(false);
-const selectedDate = ref('');
+const selectedDate = ref("");
 const showDetailModal = ref(false);
 const transactionStore = useTransactionStore();
+const userStore = useUserStore();
 
 onMounted(() => {
-  const fixedToast = localStorage.getItem('fixedToast');
+  if (!userStore.user?.sendNotification) return;
+  const fixedToast = localStorage.getItem("fixedToast");
   if (fixedToast) {
     seenFixedToast.value = false;
   } else {
     seenFixedToast.value = true;
-    localStorage.setItem('fixedToast', 'true');
+    localStorage.setItem("fixedToast", "true");
   }
 });
 const handleDayClick = (dateStr) => {
-  console.log('📅 클릭된 날짜:', dateStr); // ✅ 디버깅용 콘솔 확인
+  console.log("📅 클릭된 날짜:", dateStr); // ✅ 디버깅용 콘솔 확인
   selectedDate.value = dateStr;
   showDetailModal.value = true;
 };

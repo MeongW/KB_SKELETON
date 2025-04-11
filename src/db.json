@@ -3,84 +3,72 @@
     {
       "id": "1",
       "email": "ggim@dreamwiz.com",
-      "password": "1234512345",
+      "password": "$2b$10$U/7GWYdaulMmO.vHlLHTzO6LdN6uWE/2df764lzKVG9kEeppHla7q",
       "nickname": "",
       "joinDate": "2024-04-17"
     },
     {
       "id": "2",
       "email": "migyeongi@daum.net",
-      "password": "1234",
+      "password": "$2b$10$HXy4u9ylgmmUjN9Mj3R5Fu.8DkGCK9ok2XsIFV7figb3/7Gwq7vdy",
       "nickname": "김하은",
       "joinDate": "2025-04-07"
     },
     {
       "id": "3",
       "email": "sangceol15@coeii.net",
-      "password": "1234",
+      "password": "$2b$10$kcxNhdEYSsiGGazxfOg1eu2kY/GVp9c5WM3xnPf5unz6wMBTerku6",
       "nickname": "주예지",
       "joinDate": "2024-06-25"
     },
     {
       "id": "4",
       "email": "songminji@gmail.com",
-      "password": "1234",
+      "password": "$2b$10$m2BpZzmleogVEJdWR8qBPeuyO8jtyCKAgTk6Mh8s4aktpMgfy88we",
       "nickname": "홍정식",
       "joinDate": "2025-02-08"
     },
     {
       "id": "5",
       "email": "vryu@yu.com",
-      "password": "1234",
+      "password": "$2b$10$7Yxu/TYPuxeIXY23UwNf3OQJ9wUEnZtk7/FCIhIR2h7j/XVQKtpKy",
       "nickname": "최상호",
       "joinDate": "2022-11-15"
     },
     {
       "id": "6",
       "email": "gimjeongsu@dreamwiz.com",
-      "password": "1234",
+      "password": "$2b$10$2wUgQJcGoYZ/GX6Zv30Ku.I.N1nwGTHYfkdSxFGXwCoG3gM68eWeu",
       "nickname": "최정식",
       "joinDate": "2024-08-05"
     },
     {
       "id": "7",
       "email": "hyeonsugjo@naver.com",
-      "password": "1234",
+      "password": "$2b$10$s1jaEKash2TxpIjLzxOcvOOJIzpR..WqnEOnUe13gjeJe48db31Ky",
       "nickname": "최성훈",
       "joinDate": "2024-09-18"
     },
     {
       "id": "8",
       "email": "seungmin20@baggim.org",
-      "password": "1234",
+      "password": "$2b$10$5MdbTJGfyywiHCLHRAchyuRrVok8LHJ6IHT5HD4x1p0uOBkevrnH.",
       "nickname": "김광수",
       "joinDate": "2022-08-10"
     },
     {
       "id": "9",
       "email": "miyeong33@live.com",
-      "password": "1234",
+      "password": "$2b$10$MKFN5msQN17saYZkK7GbPO/SRidp1TMr8aQJwzwYZtCwl/846R.f2",
       "nickname": "박은지",
       "joinDate": "2025-03-30"
     },
     {
       "id": "10",
       "email": "isangho@nate.com",
-      "password": "1234",
+      "password": "$2b$10$NY3L5xCFu5QACj2Z4gFduuC34eW3me6ZgMmmK20nnPNo.hS.X/Ux2",
       "nickname": "김지민",
       "joinDate": "2022-10-06"
-    },
-    {
-      "id": "fe6a",
-      "nickname": "q",
-      "email": "q",
-      "password": "q"
-    },
-    {
-      "id": "b12e",
-      "nickname": "111",
-      "email": "111",
-      "password": "111"
     }
   ],
   "transactions": [
