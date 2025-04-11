@@ -9,14 +9,14 @@
       v-for="tx in recentHistory"
       :key="tx.id"
       class="card"
-      :style="{ backgroundColor: tx.type === 'income' ? '#FEF2F2' : '#EFF6FF' }"
+      :style="{ backgroundColor: tx.type === 'income' ? '#EFF6FF' : '#FEF2F2' }"
     >
       <span class="date">{{ tx.date }}</span>
 
       <div class="content">
         <strong>{{ tx.category }}</strong>
 
-        <strong :style="{ color: tx.type === 'income' ? 'red' : 'blue' }"
+        <strong :style="{ color: tx.type === 'income' ? 'blue' : 'red' }"
           >{{ tx.type === 'income' ? '+' : '-' }}
           {{ tx.amount.toLocaleString() }}원</strong
         >
