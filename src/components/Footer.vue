@@ -20,11 +20,11 @@
 
 <script setup>
 const members = [
-  { name: "dlekgus1q", github: "https://github.com/dlekgus1q" },
-  { name: "0woy", github: "https://github.com/0woy" },
-  { name: "meentho", github: "https://github.com/meentho" },
-  { name: "MeongW", github: "https://github.com/MeongW" },
-  { name: "ParkPark8", github: "https://github.com/ParkPark8" },
+  { name: 'dlekgus', github: 'https://github.com/dlekgus' },
+  { name: '0woy', github: 'https://github.com/0woy' },
+  { name: 'meentho', github: 'https://github.com/meentho' },
+  { name: 'MeongW', github: 'https://github.com/MeongW' },
+  { name: 'ParkPark8', github: 'https://github.com/ParkPark8' },
 ];
 </script>
 

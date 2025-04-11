@@ -35,7 +35,6 @@ onMounted(async () => {
   const userId = localStorage.getItem('userId'); // 또는 userStore.user?.id
   if (userId) {
     await transactionStore.fetchByUser(userId);
-    console.log('✅ 거래내역 로드 완료', userId);
   }
 });
 const recentHistory = computed(() => transactionStore.recentTransactions);

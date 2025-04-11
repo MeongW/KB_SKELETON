@@ -39,34 +39,27 @@ const borderColor = computed(() => {
 });
 
 const gradeInfo = computed(() => {
-  const val = (props.expense / props.income) * 100;
+  let val = (props.expense / props.income) * 100;
+  val = Math.round(val);
   let grade = '',
-    flag = '',
     color = '';
   if (val <= 30) {
     grade = 'A';
-    flag = '30%';
     color = 'text-success';
   } else if (val <= 50) {
     grade = 'B';
-    flag = '50%';
     color = 'text-primary';
   } else if (val <= 80) {
     grade = 'C';
-    flag = '80%';
     color = 'text-warning';
   } else {
     grade = 'D';
-    flag = '80%';
     color = 'text-danger';
   }
   return {
-    grade,
-    message:
-      grade === 'D'
-        ? `수입의 ${flag}이상 지출했어요!`
-        : `수입의 ${flag}정도 지출했어요!`,
-    color,
+    grade: isNaN(val) ? '--' : grade,
+    message: isNaN(val) ? '데이터가 없습니다.' : `수입의 ${val}% 지출했어요!`,
+    color: isNaN(val) ? 'text-muted' : color,
   };
 });
 </script>

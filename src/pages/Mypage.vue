@@ -31,7 +31,7 @@
             class="btn btn-primary pointer"
             @click="isEditing ? updateNickname() : modiNickname()"
           >
-            {{ isEditing ? "완료" : "수정" }}
+            {{ isEditing ? '완료' : '수정' }}
           </button>
           <button
             v-show="isEditing"
@@ -93,25 +93,25 @@
 </template>
 
 <script setup>
-import MypageLayout from "@/components/layouts/MypageLayout.vue";
-import PasswordChangeModal from "@/components/modal/PasswordChangeModal.vue";
-import { computed, ref, onMounted } from "vue";
-import router from "@/router";
-import { useUserStore } from "@/stores/userStore";
+import MypageLayout from '@/components/layouts/MypageLayout.vue';
+import PasswordChangeModal from '@/components/modal/PasswordChangeModal.vue';
+import { computed, ref, onMounted } from 'vue';
+import router from '@/router';
+import { useUserStore } from '@/stores/userStore';
 
 const userStore = useUserStore();
 
-const BASEURL = "";
+const BASEURL = '';
 
 const showPasswordChangeModal = ref(false);
 const isEditing = ref(false);
-const editedNickname = ref("");
-const userImage = ref("https://picsum.photos/50/50");
+const editedNickname = ref('');
+const userImage = ref('https://picsum.photos/50/50');
 
 const alarmLabels = {
   //   pushAlarm: "푸시 알림",
   //   emailAlarm: "이메일 알림",
-  payAlarm: "결제 예정 알림",
+  payAlarm: '결제 예정 알림',
 };
 
 const handleToggleNotification = (value) => {
@@ -127,56 +127,55 @@ const updateNickname = async () => {
     if (editedNickname.value.length >= 2) {
       await userStore.changeNickname(editedNickname.value);
       isEditing.value = false;
-      alert("닉네임 변경");
+      alert('닉네임 변경');
     } else {
-      alert("두글자 이상 입력하세요!");
+      alert('두글자 이상 입력하세요!');
     }
   } catch (error) {
-    alert("닉네임 변경 실패");
+    alert('닉네임 변경 실패');
   }
 };
 
 const logout = () => {
-  const confirmLogout = confirm("정말 로그아웃하시겠습니까?");
+  const confirmLogout = confirm('정말 로그아웃하시겠습니까?');
   if (!confirmLogout) return;
   userStore.logout();
-  router.push("/");
+
+  router.push('/');
 };
 
 const deleteUser = async () => {
-  const confirmLogout = confirm("정말 회원 탈퇴하시겠습니까?");
+  const confirmLogout = confirm('정말 회원 탈퇴하시겠습니까?');
   if (!confirmLogout) return;
   userStore.deleteUser();
-  router.push("/");
+  router.push('/');
 };
 
 onMounted(async () => {
-  const storedId = localStorage.getItem("userId");
+  const storedId = localStorage.getItem('userId');
 
   userImage.value =
-    localStorage.getItem("userImage") ||
-    "https://velog.velcdn.com/images/chanmi125/post/18a3256c-dbaf-4f5e-952e-c694496e25ad/image.svg";
-  console.log("✅ storedId:", storedId);
+    localStorage.getItem('userImage') ||
+    'https://velog.velcdn.com/images/chanmi125/post/18a3256c-dbaf-4f5e-952e-c694496e25ad/image.svg';
 
   if (!storedId) {
-    console.warn("⚠️ userId가 없음 → 로그인 페이지로 이동");
-    router.push("/login");
+    console.warn('⚠️ userId가 없음 → 로그인 페이지로 이동');
+    router.push('/login');
     return;
   }
 
   try {
     await userStore.fetchUser(storedId);
-    console.log("👤 불러온 유저 정보:", userStore.user);
   } catch (e) {
-    console.error("❌ fetchUser 실패:", e);
+    console.error('❌ fetchUser 실패:', e);
   }
 });
 
 const user = computed(() => userStore.user);
 // 옵셔널 체이닝을 이용해 null 방지
-const email = computed(() => user.value?.email || "");
-const nickname = computed(() => userStore.user?.nickname || "");
-const joinDate = computed(() => user.value?.joinDate || "");
+const email = computed(() => user.value?.email || '');
+const nickname = computed(() => userStore.user?.nickname || '');
+const joinDate = computed(() => user.value?.joinDate || '');
 </script>
 
 <style scoped>

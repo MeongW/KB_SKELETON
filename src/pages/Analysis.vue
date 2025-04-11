@@ -99,10 +99,11 @@ const weeklyChart = ref(null);
 
 // ✅ Pinia 스토어 가져오기
 const store = useAnalysisStore();
-const { periodStat, fetchUserTransactions, filters } = store;
+const { periodStat, filters } = store;
 
 onMounted(async () => {
-  await fetchUserTransactions();
+  await store.fetchUserTransactions();
+  store.period = 1;
   renderCategoryChart(categoryChart.value, periodStat);
 
   renderWeeklyChart(
@@ -113,7 +114,7 @@ onMounted(async () => {
   );
 });
 watch(
-  () => [store.period], // 바라볼 값들
+  () => store.period,
   () => {
     if (categoryChart.value) {
       renderCategoryChart(categoryChart.value, store.periodStat);

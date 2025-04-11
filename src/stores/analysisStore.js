@@ -1,18 +1,18 @@
 // src/stores/transactionStore.js
-import { defineStore } from "pinia";
-import { ref, reactive, watch } from "vue";
-import api from "@/services/api";
+import { defineStore } from 'pinia';
+import { ref, reactive, watch } from 'vue';
+import api from '@/services/api';
 
-export const useAnalysisStore = defineStore("analysis", () => {
+export const useAnalysisStore = defineStore('analysis', () => {
   const period = ref(1);
   const periodStat = reactive({
     expense: 0,
     income: 0,
-    topCategory: "데이터 없음",
+    topCategory: '데이터 없음',
     prevIncome: 0,
     prevExpense: 0,
-    diffExpense: "",
-    diffIncome: "",
+    diffExpense: '',
+    diffIncome: '',
     category: {},
   });
 
@@ -20,22 +20,27 @@ export const useAnalysisStore = defineStore("analysis", () => {
     curExpenseFilter: [],
     curIncomeFilter: [],
   });
-  let userTransactions = reactive([]);
 
-  const userId = localStorage.getItem("userId");
-  const BASE_URI = "/transactions";
+  const state = reactive({
+    userTransactions: [],
+  });
+
+  const BASE_URI = '/transactions';
 
   const fetchUserTransactions = async () => {
     try {
-      const response = await api.get(`${BASE_URI}?userId=${userId}`);
+      const userId = localStorage.getItem('userId');
+      const response = await api.get(BASE_URI, {
+        params: { userId },
+      });
       if (response.status === 200) {
-        userTransactions.value = response.data;
+        state.userTransactions = response.data;
         updatePeriodStats();
       } else {
-        alert("데이터 조회 실패");
+        alert('데이터 조회 실패');
       }
     } catch (e) {
-      alert("에러 발생", e);
+      alert('에러 발생', e);
       console.log(e);
     }
   };
@@ -46,7 +51,7 @@ export const useAnalysisStore = defineStore("analysis", () => {
   }
 
   function updatePeriodStats() {
-    const stats = getPeriodStats(period.value, userTransactions.value);
+    const stats = getPeriodStats(period.value, state.userTransactions);
     Object.assign(periodStat, stats);
   }
 
@@ -66,26 +71,26 @@ export const useAnalysisStore = defineStore("analysis", () => {
 
     filters.curExpenseFilter = getFiltered(
       transactions,
-      "expense",
+      'expense',
       prevDate,
       now
     );
     filters.curIncomeFilter = getFiltered(
       transactions,
-      "income",
+      'income',
       prevDate,
       now
     );
 
     const prevExpenseFilter = getFiltered(
       transactions,
-      "expense",
+      'expense',
       compareDate,
       prevDate
     );
     const prevIncomeFilter = getFiltered(
       transactions,
-      "income",
+      'income',
       compareDate,
       prevDate
     );
@@ -127,7 +132,7 @@ export const useAnalysisStore = defineStore("analysis", () => {
       total += t.amount;
     });
 
-    let topCategory = "데이터 없음";
+    let topCategory = '데이터 없음';
     let max = 0;
     for (const [category, amount] of Object.entries(categoryMap)) {
       if (amount > max) {
@@ -145,12 +150,12 @@ export const useAnalysisStore = defineStore("analysis", () => {
       if (cur === 0) {
         diffRate = 0;
       } else {
-        return "--%";
+        return '--%';
       }
     } else {
       diffRate = ((cur - prev) / Math.abs(prev)) * 100;
     }
-    return (diffRate > 0 ? "+" : "") + diffRate.toFixed(1) + "%";
+    return (diffRate > 0 ? '+' : '') + diffRate.toFixed(1) + '%';
   }
 
   // ⭐ period가 바뀌면 자동으로 stats 업데이트

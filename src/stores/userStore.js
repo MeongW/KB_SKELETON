@@ -1,9 +1,9 @@
-import { defineStore } from "pinia";
-import api from "@/services/api";
-import bcrypt from "bcryptjs";
+import { defineStore } from 'pinia';
+import api from '@/services/api';
+import bcrypt from 'bcryptjs';
 
-const BASE_URL = "";
-export const useUserStore = defineStore("user", {
+const BASE_URL = '';
+export const useUserStore = defineStore('user', {
   state: () => ({
     user: null,
   }),
@@ -12,22 +12,21 @@ export const useUserStore = defineStore("user", {
       try {
         const res = await api.get(`${BASE_URL}/users/${id}`);
         this.user = res.data;
-        console.log(localStorage.getItem("userId"));
       } catch (error) {
-        console.log("유저 조회 실패", error);
+        console.log('유저 조회 실패', error);
         this.user = null;
       }
     },
     setUser(userData) {
       this.user = userData;
-      localStorage.setItem("userId", userData.id);
-      localStorage.setItem("userImage", "https://picsum.photos/50/50");
+      localStorage.setItem('userId', userData.id);
+      localStorage.setItem('userImage', 'https://picsum.photos/50/50');
     },
     logout() {
       this.user = null;
-      localStorage.removeItem("userId");
-      localStorage.removeItem("userImage");
-      localStorage.removeItem("fixedToast");
+      localStorage.removeItem('userId');
+      localStorage.removeItem('userImage');
+      localStorage.removeItem('fixedToast');
     },
     async deleteUser() {
       //현재 로그인된 유저 정보가 없으면 함수 종료
@@ -38,7 +37,7 @@ export const useUserStore = defineStore("user", {
 
     async changePassword(current, newPassword) {
       if (!this.user) {
-        return "no-user"; // 사용자 정보 없음
+        return 'no-user'; // 사용자 정보 없음
       }
 
       // 비밀번호 유효성 검사 함수
@@ -61,13 +60,13 @@ export const useUserStore = defineStore("user", {
 
       // 비밀번호 조건 불충족
       if (!validateStrongPassword(newPassword)) {
-        return "invalid-password-format";
+        return 'invalid-password-format';
       }
 
       // 현재 비밀번호 불일치
       const isMatch = await bcrypt.compare(current, this.user.password);
       if (!isMatch) {
-        return "not-matched";
+        return 'not-matched';
       }
 
       // 비밀번호 해싱 후 업데이트
@@ -86,13 +85,13 @@ export const useUserStore = defineStore("user", {
 
         if (res.status === 200) {
           this.user.password = hashedPassword;
-          return "success";
+          return 'success';
         } else {
-          return "server-error";
+          return 'server-error';
         }
       } catch (error) {
-        console.error("비밀번호 변경 요청 중 에러:", error);
-        return "server-error";
+        console.error('비밀번호 변경 요청 중 에러:', error);
+        return 'server-error';
       }
     },
 
@@ -114,10 +113,10 @@ export const useUserStore = defineStore("user", {
           // ✅ 객체를 통째로 교체해서 반응성 유지
           this.user = { ...this.user, nickname: newNickname };
         } else {
-          alert("닉네임 수정에 실패했습니다.");
+          alert('닉네임 수정에 실패했습니다.');
         }
       } catch (error) {
-        console.log("닉네임 변경 실패", error);
+        console.log('닉네임 변경 실패', error);
       }
     },
 
@@ -137,10 +136,10 @@ export const useUserStore = defineStore("user", {
         if (res.status === 200) {
           this.user = updatedUser;
         } else {
-          alert("알림 설정 변경에 실패했습니다.");
+          alert('알림 설정 변경에 실패했습니다.');
         }
       } catch (error) {
-        console.error("알림 설정 변경 실패:", error);
+        console.error('알림 설정 변경 실패:', error);
       }
     },
   },
